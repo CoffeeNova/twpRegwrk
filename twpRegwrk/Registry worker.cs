@@ -9,6 +9,9 @@ using System.Reflection;
 
 namespace NWTweak
 {
+    /// <summary>
+    /// Класс для работы с реестром windows
+    /// </summary>
     public class RegistryWorker
     {
         /// <summary>
@@ -88,17 +91,19 @@ namespace NWTweak
                 Rkey.Close();
             return SubKey;
         }
+
+        /// <summary>
+        /// Список всех разделов по пути <paramref name="path"/>
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public List<string> GetSubKeyNames(string path)
         {
             List<string> res = new List<string>();
-            string root;
             RegistryKey rSubkey = Registry.ClassesRoot;
             string[] subKeyNames = rSubkey.GetSubKeyNames();
 
-            foreach (string s in subKeyNames)
-            {
-                res.Add(s);
-            }
+            res = subKeyNames.ToList<string>();
             rSubkey.Close();
             return res;
         }
@@ -272,8 +277,16 @@ namespace NWTweak
         }
     }
 
+    /// <summary>
+    ///  
+    /// </summary>
     public class RegistryHelpers
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyPath"></param>
+        /// <returns></returns>
         public static RegistryKey GetRegistryKey(string keyPath)
         {
             RegistryKey localMachineRegistry
@@ -287,6 +300,12 @@ namespace NWTweak
                 : localMachineRegistry.OpenSubKey(keyPath);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyPath"></param>
+        /// <param name="keyName"></param>
+        /// <returns></returns>
         public static object GetRegistryValue(string keyPath, string keyName)
         {
             RegistryKey registry = GetRegistryKey(keyPath);
